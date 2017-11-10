@@ -1,0 +1,7 @@
+Change log:
+
+Grow_drops.f (l.20): growth law - sphere -> disk
+Parameters_liquid.fi (l.131,134): new adimensionality constants
+find_dtcoll.f (l.66): changed calculation of dt(i)
+Nucleation_new_droplets.f (l.108, 250, 280ff, 390, 439): calculation of radius
+test
