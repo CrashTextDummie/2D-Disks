@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "2D-Disks", "2D-Disks.vfproj", "{28B23F2A-4771-418C-BC14-5A80770A19CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28B23F2A-4771-418C-BC14-5A80770A19CA}.Debug|x86.ActiveCfg = Debug|Win32
+		{28B23F2A-4771-418C-BC14-5A80770A19CA}.Debug|x86.Build.0 = Debug|Win32
+		{28B23F2A-4771-418C-BC14-5A80770A19CA}.Release|x86.ActiveCfg = Release|Win32
+		{28B23F2A-4771-418C-BC14-5A80770A19CA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2FDCC0F7-A050-4DCC-96BA-BDCF00B70ACF}
+	EndGlobalSection
+EndGlobal

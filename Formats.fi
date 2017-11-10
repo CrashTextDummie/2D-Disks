@@ -1,0 +1,63 @@
+
+!100   FORMAT (D13.3)
+100   FORMAT (F16.5)
+500   FORMAT (<isize_save+1>(F16.5))
+501   FORMAT (F16.5,7X,<isize_save>(I6))
+502   FORMAT (F16.5,7X,<isize_save>(I10))
+101   FORMAT (I6,7X,F25.16)
+102   FORMAT (I6,7X,I6)
+103   FORMAT (F14.5,7X,F25.16)
+104   FORMAT (F14.5,7X,I6)
+105   FORMAT (I6)
+106   FORMAT (6X,D8.3)
+
+
+110   FORMAT (I6,2X)
+
+114   FORMAT (I10)	!v. 105
+115   FORMAT (D15.5)	!v. 111
+
+
+
+120	FORMAT (2X,F10.5)
+121	FORMAT (2X,I10)
+
+198   FORMAT ('n = ', I6)
+199	FORMAT ("t = ", F13.5)
+200	FORMAT ("j = ", I6)
+201	FORMAT ("icoll = ", I6)
+202	FORMAT (2X,"dt_coll = " 2X,F13.6)
+
+203	FORMAT (2X,"No merging")
+204	FORMAT (2X,"Merging drops ",I6," - ",I4)
+205	FORMAT (2X,"Merging drops N = ",I6,"- 1")
+206   FORMAT (2X,"----------------------------------------------------")
+207	FORMAT (2X,"x(",I4," ) = ",F25.18)
+208   FORMAT (2X,"r(",I4,") before bridge = ",F19.10)
+209	FORMAT (2X,"r(",I4,") after bridge  = ",F19.10)
+
+210   FORMAT (2X,"Initial r(",I6,") = ",F19.10)
+211   FORMAT (2X,"Final r(",I6,")   = ",F19.10)
+212   FORMAT (2X,"eps_tot = ",F20.10)
+213   FORMAT (2X,"phi(icoll)   = ",F20.10)
+214   FORMAT (2X,"phi(icoll+1) = ",F20.10)
+215   FORMAT (2X,"phi_b(icoll) = ",F20.10)
+
+
+!	Error messages
+300	FORMAT (2X,"ERROR! Drop (",I4,") and (",I4,") overlap") 
+301	FORMAT (2X,"ERROR! Test 1 on x(N) failed: x(n) > l_wire") 
+302	FORMAT (2X,"ERROR! Test 2 on x(N) failed: overlap drop(n)-(1)") 
+
+
+!	Initial parameters
+400   FORMAT (2X,F18.8,4X,"% r0     [um]")
+401   FORMAT (2X,F18.8,4X,"% eps0   [um]")
+402   FORMAT (2X,F18.8,4X,"% l wire [um]")
+403   FORMAT (2X,F18.8,4X,"% r wire [um]")
+404	FORMAT (2X,F18.8,4X,"% L normalization [um]")
+405   FORMAT (2X,F18.8,4X,"% phi0   [um^2/s]")
+406   FORMAT (2X,I10,4X,  "% N droplets ")
+407   FORMAT (2X,I10,4X,  "% Max N droplets ")
+408   FORMAT (2X,F18.8,4X,"% lambda0 [um]")
+409   FORMAT (2X,F18.8,4X,"% t0      [s]")

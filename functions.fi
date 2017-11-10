@@ -1,0 +1,25 @@
+
+
+	!Calculate the foot protruding from the nucleated droplet (interaction length eps)
+	!*********************************************************************************
+	REAL(8) FUNCTION INTERACT_RANGE(radius)
+
+	REAL(8):: radius
+
+	INCLUDE 'Declarations.fi'
+	INCLUDE 'Parameters.fi'	
+
+
+		IF (flag_const_interaction_range.EQ.1) THEN 
+		
+			INTERACT_RANGE = eps0
+		
+		ELSE 
+		
+			INTERACT_RANGE = percentage_eps * radius
+		
+		END IF
+ 
+
+	RETURN 
+	END

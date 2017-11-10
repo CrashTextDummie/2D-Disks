@@ -1,0 +1,142 @@
+
+	!WATER  
+	!************************************************************************
+	T0 = 273.d0 + 5.d0
+
+	rho = 1.d3
+
+	sigma = 1.d-3*(94.29201d0 + 0.00453d0*T0 - 2.66317d-4*T0*T0) 
+      
+	nu = 1.d-9* (465625.37245d0 - 5385.8511d0*T0 +
+     &  	 23.46893d0*T0**2.d0 - 0.04557d0*T0**3.d0+3.32314d-5*T0**4.d0)
+      
+	
+
+!	DIMENSIONAL CONSTANTS
+!	************************************************************************
+
+	n0 = 40					   !Number of droplets     !Test:20
+
+	r_wire_dimens     = 10.d-6      !Radius of the wire [m]
+	r_drop_MIN_dimens = 2*r_wire_dimens !Max valore sensato e' 6.88*R_wire
+	r0_dimens         = r_drop_MIN_dimens  !Radius of the initial droplets [m]
+
+
+	!NUCLEATION RULE: Wave length [m] of a stable perturbation of the water film
+	lambda0_dimens = 2.d0*pi_gr*DSQRT(2.d0)*r_wire_dimens 
+
+!	!LENGTH OF THE WIRE [m]
+!T	l_wire_dimens = 10.d-3        !OK con n0=80. R0=3-5 um
+	l_wire_dimens = n0 * (lambda0_dimens + 2.d0*r0_dimens) 
+!	l_wire_dimens = n0 * lambda0_dimens + 2.d0*r0_dimens    !Qto e' piu' corretto
+
+	percentage_r0_random = 0.01d0         !% of radius distributed randomly on the initial droplets
+	eps0_dimens          = 1.d-7          !Foot protruding from droplet at the beginning [m]
+	phi0_dimens          = 5.d-9	      !Initial flux over the droplets [kg/(m s)] 
+	phi_b0_dimens        = 5.d-9	      !Initial flux between the droplets (on the bridges)
+
+	eps0_dimens    = 1.d-7     !Constant value of the interaction range [m]
+	percentage_eps = 0.d0    !% of the radius, indicating the interaction range of the droplets
+	
+	percentage_Vb_random = 1.d-6   !% of the water volume deposited on a bridge between 2 droplets
+								   !  that I redistribute randomly among the new droplets nucleating
+								   !  on the bridge (to prevent merging 3 by 3)
+
+!	------------------------------------------------------------------------------------------
+	flag_const_interaction_range = 0  !1: The interaction range of the droplets is constant
+								 	  !0: The interaction range of the droplets is a % of the radius
+
+	flag_merging_2by2 = 1   !1: Droplets merge 2 by 2
+							!0: Droplets can also merge 3 by 3
+
+	flag_nucl_one_drop = 0  !1: Only one drop nucleated on each bridge
+							!0: A necklace of droplets can be nucleated on each bridge					
+	
+	n_dtcoll_correct_max = 10   !Max N of corrections of dtcoll
+	
+	
+
+!	Parameters for adimensionalization
+!	*************************************************************************
+!	ONLY FOR TEST 
+!	r_equi   = 1.d0       !Equilibrium radius of droplet (e.g. nucleation radius)
+!	phi_equi = 1.d0       !Equilibrium flux = vol/(m t)
+!	t_equi   = 1.d0       !Equilibrium time   (e.g. time for the nucleation of droplet from instability) 
+
+
+!	STANDARD CHARACTERISTIC QUANTITIES
+	r_equi    = r_drop_MIN_dimens
+	phi_equi  =	phi0_dimens
+!**	t_equi    = 1.d0      !**CHECK
+	t_equi    = r_equi**2.d0/phi_equi
+
+
+
+!	ADIMENSIONALIZATION CONSTANTS
+!	**************************************************************************
+!	INITIAL VALUES ADIMENSIONALIZED
+!	--------------------------------------------------------------------------
+	!Foot protruding from the droplets (reference value)
+	eps0 = eps0_dimens / r_equi
+
+	!Inital dimension of the droplets
+	r0 = r0_dimens / r_equi
+
+	!Initial fluxes on the droplets and on the bridges between the droplets
+	phi0   = phi0_dimens   / phi_equi	
+	phi_b0 = phi_b0_dimens / phi_equi
+
+	!Initial positions of the centre of the droplets
+	DO i = 1,n0
+		x0(i) = x0_dimens(i) / r_equi		
+	END DO	
+	
+	DO i = n0+1,isize
+		x0(i) = 0.d0		
+	END DO
+
+	!Total time of simulatio
+!	******************************************************************************
+!	time_tot_dimens = 200.d0	   !Total time of the simulation [s]  !test:100
+!	t_save_min_dimens = 0.0d0	   !Min time when I start saving data on file
+!	time_tot = time_tot_dimens / t_equi
+!	t_save_min = t_save_min_dimens / t_equi
+
+
+!**	time_tot = time_tot_dimens / t_equi
+!**	time_tot_dimens = 1.d15   !Total time of the simulation [s]  !test:100
+	time_tot        = 1.d15 
+	time_tot_dimens = time_tot * t_equi
+
+	t_save_min = 0.d0
+	t_save_min_dimens = t_save_min * t_equi
+
+
+!	RADIUS AND LENGTH OF THE WIRE (ADIMENSIONAL)
+!	------------------------------------------------------------------------------	
+	r_wire = r_wire_dimens / r_equi    !Radius
+	l_wire = l_wire_dimens / r_equi    !Length
+
+!	NUCLEATION RULE: 
+	lambda0 = lambda0_dimens / r_equi
+
+!	MINIMUM RADIUS OF NEW DROPLETS 
+!	 If they don't reach it, the water volume is considered as part of the precursor film
+	r_drop_MIN = r_wire
+
+
+!	ADIMENSIONAL CONSTANTS FOR THE EQUATIONS
+!	----------------------------------------------------------------------------
+	!Equation for calculation of time to collision
+!	A_adim = pi_gr* r_equi**2.d0 / (4.d0*phi_equi*t_equi)
+
+	!Volume deposited between droplets
+!	B_adim = phi_equi * t_equi / r_equi**2.d0
+      
+      !adimensional constant adjusted for disks
+      A_adim = pi_gr* r_equi / (2.d0*phi_equi*t_equi)
+      B_adim = phi_equi * t_equi / r_equi
+
+	!Calcolo di dtcoll(i)
+	C_adim = r_equi**2.d0 / (t_equi*phi_equi)
+

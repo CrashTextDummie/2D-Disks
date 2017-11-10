@@ -1,0 +1,10 @@
+         20.00000000    % r0     [um]
+          0.10000000    % eps0   [um]
+       5154.30635099    % l wire [um]
+         10.00000000    % r wire [um]
+         20.00000000    % L normalization [um]
+       5000.00000000    % phi0   [um^2/s]
+          40    % N droplets 
+         100    % Max N droplets 
+          4.44288294    % lambda0 [um]
+          0.08000000    % t0      [s]

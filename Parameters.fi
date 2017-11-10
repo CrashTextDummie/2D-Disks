@@ -1,0 +1,77 @@
+
+      double precision pi_gr,bar,atm
+      double precision kBoltz,Nav,B
+	double precision TOL 
+
+      parameter(pi_gr = 3.141592654d0)    !pi greco
+	parameter(bar   = 1.0d5)
+	parameter(atm   = 1.01325d5)
+
+      
+	!Costante di Boltzmann, N di Avogadro, covolume aria
+      parameter(kBoltz=1.38066d-23,Nav = 6.022d23,B=1.d-3*0.03049d0/Nav)
+
+	!EPS tolerance for merging
+	parameter(TOL = 10.d-18)
+
+	!LIQUID
+	!***********************************************************************	
+      REAL(8) P0,T0,rho,sigma,nu
+	common/param_liquido/P0,T0,rho,sigma,nu  !**MIO ADD
+
+
+	!AIR   (Prosperetti,JASA1989)   K(T)=aT+b  (valido per 200K<T<3000K )
+	!***********************************************************************	
+	 REAL(8)::cp_gas,cv_gas,gamma_gas
+	  parameter(cp_gas = 1.005d3)	    ![J/(Kg K)]
+ 	  parameter(cv_gas = 0.718d3)	    ![J/(Kg K)]
+	  parameter(gamma_gas = 1.4d0)	
+
+
+!	WIRE AND INITIAL DIMENSIONS OF DROPLETS & FLUXES
+!	************************************************************************
+	REAL(8)::r_wire_dimens, l_wire_dimens,lambda0_dimens    ![m]
+
+	REAL(8)::r_drop_MIN_dimens
+	REAL(8)::lambda0        !Characteristic lenght of the perturbation (instability) of the necklace of droplets
+	REAL(8)::r_drop_MIN     !Minimum value of the radius of a new shperical droplet
+	REAL(8)::eps0_dimens    !Reference length of the protruding foot of the droplets
+	REAL(8)::percentage_eps !% of radius of the protruding foot of the droplets
+	REAL(8)::r0_dimens		!Radius of the initial droplets
+	REAL(8)::phi0_dimens,phi_b0_dimens    !Initial flux on the droplets and between them
+	REAL(8)::percentage_Vb_random         !% of volume deposed on the bridge between two droplets that is 
+										  !  redistributed randomly (to prevent merging of more than 2 drops)
+	REAL(8),DIMENSION(isize)::x0_dimens
+
+	INTEGER::flag_const_interaction_range  !Flag that tells if the protruding "foot" pes(i) (= interaction range) 
+										   ! of the droplets is constant
+
+	common/wire_dimens/r_wire_dimens,l_wire_dimens,lambda0_dimens
+	common/interaction_range/flag_const_interaction_range
+	common/nucleation_dimens/r_drop_MIN_dimens
+	common/nucleation/lambda0,r_drop_MIN,flag_nucl_one_drop
+	common/interaction_range2/percentage_eps
+	common/merging/percentage_Vb_random,flag_merging_2by2
+	common/initial_drops_dimens/r0_dimens,eps0_dimens,x0_dimens
+     	common/initial_fluxes_dimens/phi0_dimens,phi_b0_dimens
+
+
+!	Parameters for adimensionalization
+!	*************************************************************************
+	REAL(8)::r_equi       !Equilibrium radius of droplet (e.g. nucleation radius)
+	REAL(8)::phi_equi     !Equilibrium flux = vol/(m t)
+	REAL(8)::t_equi       !Equilibrium time   (e.g. time for the nucleation of droplet from instability) 
+
+	common/equilibrium_param/r_equi,phi_equi,t_equi
+	
+
+!	Adimensionalization constants
+!	*************************************************************************
+	REAL(8):: A_adim,B_adim,C_adim
+	REAL(8):: r_wire,l_wire        !Radius and length of wire, ADIMENSIONAL
+
+	common/const_adim/A_adim,B_adim,C_adim
+	common/const_adim_wire/r_wire,l_wire
+
+
+	

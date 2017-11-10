@@ -1,0 +1,80 @@
+
+	INTEGER,PARAMETER::isize= 100		!Max number of droplets 
+	INTEGER,PARAMETER::isize_save =isize  !Max number of droplets saved in files 
+	INTEGER::n,n0						!Number of droplets and initial number of droplets
+	INTEGER::n_old,n_new
+	INTEGER::icoll						!Index of the merging droplet (i/i+1)
+	INTEGER ::ierr				        !Index of the drop that underwent error
+	INTEGER::flagcoll					!Flag that tells if there was a merging
+	INTEGER::error                      !Flag that tells if there was an error
+	INTEGER::i,j,i_new,k				!Counters
+	INTEGER::n_new_drop 		        !Number of new nucleated droplets
+	INTEGER::n_AfterNucl,n_before
+	INTEGER::n_dtcoll_correct_max       !Max nummber of corrections of dtcoll
+
+	REAL(8)::t,dtcoll,time_tot,time_tot_dimens
+	REAL(8)::t_save_min_dimens,t_save_min
+	REAL(8)::tot_covered_area           !Tot area covered by the droplets
+	REAL(8)::porosity                   !Area which is not covered by the droplets
+	REAL(8)::r_max,r_min				!MAX and MIN radius
+
+	REAL(8)::r0,phi0,phi_b0,eps0,l0     !Initial values ADIMENS
+	REAL(8),DIMENSION(isize)::x0
+	REAL(8)::percentage_r0_random       !% of the initial radius of the droplets, randomly distributed
+
+	REAL(8), DIMENSION(isize)::x,r,eps				!Position of the centre,radius and interaction range at the present instant (j) (vectors)
+	REAL(8), DIMENSION(isize)::phi,phi_b			!Flux: volume/(wire length*time) over one drop (phi) 
+													!      and over the bridge between 2 drops (phi_b) at the present instant j (vectors)
+	REAL(8), DIMENSION(isize)::x_old,r_old,eps_old	!Position of the centre,radius and interaction range at the previous instant (j-1) or before merging
+	REAL(8), DIMENSION(isize)::x_AfterNucl,r_AfterNucl,eps_AfterNucl  !Droplets after considering growth and nucleation
+	REAL(8), DIMENSION(isize)::Vb_res_AfterNucl     !Residual volume in the precursor film, after nucleation (before merging)
+	REAL(8), DIMENSION(isize)::x_NewDrops,r_NewDrops,eps_NewDrops  !Droplets after considering growth and nucleation
+	REAL(8), DIMENSION(isize)::x_new,r_new,eps_new,Vb_res_new	   !Droplets after considering growth nucleation and eventually merging
+	REAL(8), DIMENSION(isize)::phi_old,phi_b_old         
+	REAL(8), DIMENSION(isize)::l_bridge,d_bridge    !Length and thickness of the bridge between droplets
+	REAL(8), DIMENSION(isize)::dt					!Intervalli di tempo necessari per le collisioni
+	REAL(8), DIMENSION(isize)::lb                   !Length of the intervals between droplets
+	REAL(8), DIMENSION(isize)::Vb		            !Volume deposed in dtcoll in the bridge between 2 droplets
+	REAL(8), DIMENSION(isize)::Vb_old               !Volume of the cylindrical bridge between two droplets, at the beginning of the dt
+	REAL(8), DIMENSION(isize)::Vb_drop              !Volume of the new nucleated droplet
+	REAL(8), DIMENSION(isize)::Vb_res,Vb_res_old    !Residual volume in the precursor film
+
+	REAL(8),DIMENSION(isize)::x_nucleation        !Position of the center of the new droplets (if they are not reabsorbed)
+	REAL(8),DIMENSION(isize)::x_nucl_1st_drop     !Position of the center of the FIRST new droplet of the bridge
+	REAL(8),DIMENSION(isize)::x_before,r_before   !Position and radius before considering nucleation and water from the bridges
+
+	INTEGER, DIMENSION(isize)::age				   !Instant when the droplets were created
+	INTEGER, DIMENSION(isize)::age_old	      	   !Instant when the droplets of the previous time step were created 
+	INTEGER, DIMENSION(isize)::age_AfterNucl       !Instant when the droplete were created, after nucleation
+	INTEGER, DIMENSION(isize)::age_new				
+
+	
+	INTEGER, DIMENSION(isize)::i_NewDrops          !Index of new nucleated droplets
+	INTEGER, DIMENSION(isize)::i_merging_AfterNucl !Index of merging droplets
+	INTEGER, DIMENSION(isize)::i_AfterMerge		   !Index of new droplets originated from merging
+	INTEGER, DIMENSION(isize)::flag_nucleation     !Flag that tells if the nucleation can happen (instability criterion)
+	INTEGER, DIMENSION(isize)::flag_merging        !Flag that tells if the merging has happened (overlapping)
+	INTEGER, DIMENSION(isize)::flag_merging_old    !Flag that tells if the merging has happened (overlapping)
+												   !1: drop (i) and (i+1) overlap
+	INTEGER, DIMENSION(isize)::flag_merging_AfterNucl
+	INTEGER, DIMENSION(isize)::flag_merging_dum
+	INTEGER, DIMENSION(isize)::flag_too_small      !1:The new nucleated droplet is too small to be considered spherical --> residual volume in the bridge 
+
+	INTEGER, DIMENSION(isize)::n_drop_per_bridge   !Number of droplets nulceating on each bridge
+	INTEGER::flag_merging_2by2		 	 	   !1: droplets merge 2 by 2,  0: droplets can merge also 3 by 3
+	INTEGER::flag_nucl_one_drop		           !1: only one droplet can be nucleated on each bridge, 0: a necklace of droplets can be nucleated on each bridge
+	INTEGER::warning_3_drops_merging              !1: there are 3 droplets merging 
+	INTEGER::warning_no_merging					  !1: there are no droplets merging 
+	INTEGER::n_dtcoll_correct                     !Counter that tells me how many time I corrected dtcoll at time instant it
+
+
+	!REAL(8)::dx,dt_corr								!Scalari che contengono dx=x(icoll)-x(icoll-1) dopo la collisione e il dt ulteriore che lo corregge (sommato a dtcoll_previsto)
+
+	!CHARACTER*20 :: nomefile
+
+	common/droplets/dt
+	common/time/time_tot_dimens,time_tot,t
+	common/time_save/t_save_min_dimens,t_save_min
+	common/initial_adim/eps0,r0,phi0,phi_b0,x0,l0,n0
+	common/initial/percentage_r0_random
+	common/correction_dtcoll/n_dtcoll_correct_max 

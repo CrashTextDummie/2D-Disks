@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application" Version="11.0" ProjectIdGuid="{28B23F2A-4771-418C-BC14-5A80770A19CA}">
+	<Platforms>
+		<Platform Name="Win32"/></Platforms>
+	<Configurations>
+		<Configuration Name="Debug|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Release|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RuntimeLibrary="rtMultiThreadedDLL"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
+	<Files>
+		<Filter Name="Header Files" Filter="fi;fd;h;inc">
+		<File RelativePath=".\Declarations.fi"/>
+		<File RelativePath=".\Formats.fi"/>
+		<File RelativePath=".\functions.fi"/>
+		<File RelativePath=".\Parameters.fi"/>
+		<File RelativePath=".\Parameters_liquid.fi"/></Filter>
+		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
+		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
+		<File RelativePath=".\Calculate_interaction_ranges.f"/>
+		<File RelativePath=".\Calculate_porosity.f"/>
+		<File RelativePath=".\Calculate_rmin_rmax.f"/>
+		<File RelativePath=".\Calculate_water_bridges.f"/>
+		<File RelativePath=".\Check_overlap.f"/>
+		<File RelativePath=".\Check_overlap_neighbours.f"/>
+		<File RelativePath=".\Check_xn_Rn.f"/>
+		<File RelativePath=".\Close_files.f"/>
+		<File RelativePath=".\Conditions_for_nucleation.f"/>
+		<File RelativePath=".\Correct_dtcoll.f"/>
+		<File RelativePath=".\Find_dtcoll.f"/>
+		<File RelativePath=".\Find_merging.f"/>
+		<File RelativePath=".\Find_volume_deposed_between_drops.f"/>
+		<File RelativePath=".\Grow_drops.f"/>
+		<File RelativePath=".\Initial_conditions.f"/>
+		<File RelativePath=".\Input_parameters.f"/>
+		<File RelativePath=".\main.f"/>
+		<File RelativePath=".\Nucleation_new_droplets.f"/>
+		<File RelativePath=".\Open_files.for"/>
+		<File RelativePath=".\Perform_merging.f"/>
+		<File RelativePath=".\Print_output.f"/>
+		<File RelativePath=".\Reset_old.f"/>
+		<File RelativePath=".\Save_output.f"/>
+		<File RelativePath=".\Set_periodic_BC.f"/></Filter></Files>
+	<Globals/></VisualStudioProject>
